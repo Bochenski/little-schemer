@@ -218,3 +218,27 @@
     (cond
       ((one? n) (cdr lat))
       (else (cons (car lat) (rempick (sub1 n) (cdr lat)))))))
+
+; Chapter 5
+(define rember*
+  (lambda (a l)
+    (cond
+      ((null? l) (quote ()))
+      ((atom? (car l))
+       (cond 
+        ((eq? a (car l) ) (rember* a (cdr l)))
+        (else (cons (car l) (rember* a (cdr l))))))
+      (else (cons (rember* a (car l)) (rember* a (cdr l)))))))
+
+(define insertR*
+  (lambda (new old l)
+    (cond
+      ((null? l) (quote ()))
+      ((atom? (car l))
+        (cond
+          ((eq? old (car l)) (cons old (cons new (insertR* new old (cdr l)))))
+          (else (cons (car l) (insertR* new old (cdr l))))))
+      (else (cons (insertR* new old (car l)) (insertR* new old (cdr l)))))))
+
+
+
