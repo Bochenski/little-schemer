@@ -1,21 +1,4 @@
-; Chapter 1
-(define atom?
-  (lambda (x)
-    (and (not (pair? x)) (not (null? x)))))
 
-; Chapter 2
-(define lat?
-  (lambda (l)
-    (cond
-      ((null? l) #t)
-      ((atom? (car l))(lat? (cdr l)))
-      (else #f))))
-
-(define member?
-  (lambda (a lat)
-    (cond
-      ((null? lat) #f)
-      (else (or (eq? (car lat) a) (member? a (cdr lat)))))))
 
 
 ; Chapter 3
@@ -28,9 +11,9 @@
 
 (define insertR
   (lambda (new old lat)
-    (cond 
+    (cond
       ((null? lat) (quote ()))
-      (else (cond 
+      (else (cond
         ((eq? (car lat) old) (cons old (cons new (cdr lat))))
         (else (cons (car lat) (insertR new old (cdr lat)))))))))
 
@@ -46,7 +29,7 @@
   (lambda (new old lat)
     (cond
       ((null? lat) (quote ()))
-      (else (cond 
+      (else (cond
         ((eq? (car lat) old) (cons new (cdr lat)))
         (else (cons (car lat) (subst new old (cdr lat)))))))))
 
@@ -70,7 +53,7 @@
   (lambda (new old lat)
     (cond
       ((null? lat) (quote ()))
-      (else (cond 
+      (else (cond
         ((eq? (car lat) old) (cons old (cons new (multiinsertR new old (cdr lat)))))
         (else (cons (car lat) (multiinsertR new old (cdr lat)))))))))
 
@@ -107,7 +90,7 @@
 
 (define o-
   (lambda (n m)
-    (cond 
+    (cond
       ((zero? m) n)
       (else (sub1 (o- n (sub1 m)))))))
 
@@ -219,7 +202,7 @@
     (cond
       ((null? l) (quote ()))
       ((atom? (car l))
-       (cond 
+       (cond
         ((eq? a (car l) ) (rember* a (cdr l)))
         (else (cons (car l) (rember* a (cdr l))))))
       (else (cons (rember* a (car l)) (rember* a (cdr l)))))))
@@ -248,7 +231,7 @@
   (lambda (new old l)
     (cond
       ((null? l) (quote()))
-      ((atom? (car l)) 
+      ((atom? (car l))
         (cond
           ((eq? old (car l)) (cons new (subst* new old (cdr l))))
           (else (cons (car l) (subst* new old (cdr l))))))
@@ -268,12 +251,12 @@
   (lambda (a l)
     (cond
       ((null? l) #f)
-      ((atom? (car l)) 
+      ((atom? (car l))
         (or (eq? a (car l)) (member* a (cdr l))))
       (else (or (member* a (car l)) (member* a (cdr l)))))))
 
 (define leftmost
-  (lambda (l) 
+  (lambda (l)
     (cond
       ((atom? (car l)) (car l))
       (else (leftmost (car l))))))
@@ -285,7 +268,7 @@
       ((or (atom? s1) (atom? s2)) #f)
       (else (eqlist? s1 s2)))))
 
-(define eqlist? 
+(define eqlist?
   (lambda (l1 l2)
     (cond
       ((and (null? l1) (null? l2)) #t)
@@ -332,8 +315,8 @@
         (o^ (value (1st-sub-exp nexp)) (value (2nd-sub-exp nexp)))))))
 
 (define set?
-  (lambda (l) 
-    (cond 
+  (lambda (l)
+    (cond
       ((null? l) #t)
       ((member? (car l) (cdr l)) #f)
       (else (set? (cdr l))))))
@@ -342,15 +325,15 @@
   (lambda (lat)
     (cond
       ((null? lat) (quote ()))
-      (else (cons (car lat) 
-        (makeset 
+      (else (cons (car lat)
+        (makeset
           (multirember (car lat) (cdr lat))))))))
 
 (define subset?
   (lambda (set1 set2)
     (cond
       ((null? set1) #t)
-      (else 
+      (else
         (and (member? (car set1) set2) (subset? (cdr set1) set2))))))
 
 (define eqset?
@@ -361,7 +344,7 @@
   (lambda (set1 set2)
     (cond
       ((null? set1) #f)
-      (else 
+      (else
         (or (member? (car set1) set2) (intersect? (cdr set1) set2))))))
 
 (define intersect
@@ -393,7 +376,7 @@
       (else  (intersect (car l-set) (intersectall (cdr l-set)))))))
 
 (define a-pair?
-  (lambda (x) 
+  (lambda (x)
     (cond
       ((atom? x) #f)
       ((null? x) #f)
@@ -402,7 +385,7 @@
       (else #f))))
 
 (define first
-  (lambda (p) 
+  (lambda (p)
     (car p)))
 
 (define second
@@ -429,8 +412,8 @@
   (lambda (rel)
     (cond
       ((null? rel) (quote ()))
-      (else (cons 
-        (revpair (car rel)) 
+      (else (cons
+        (revpair (car rel))
         (revrel (cdr rel)))))))
 
 (define one-to-one?
@@ -446,5 +429,3 @@
         ((null? l) (quote ()))
         ((test? (car l) a) (cdr l))
         (else (cons (car l) ((rember-f test?) a (cdr l))))))))
-
-
